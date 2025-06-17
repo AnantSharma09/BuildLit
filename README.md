@@ -1,2 +1,2 @@
 # BuildLit
-complete startup environment
+Your complete startup environment
