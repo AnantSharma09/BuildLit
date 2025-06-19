@@ -12,7 +12,6 @@ class Profile(models.Model):
 
     # shared profile data
     bio = models.TextField(blank=True)
-    skills = models.TestFileField(blank=True)
     Age = models.IntegerField(null=True, blank=True)
 
     # Joiner-specific profile data
@@ -26,11 +25,28 @@ class Profile(models.Model):
     Startup_description = models.TextField(blank=True)
     is_Deployed = models.BooleanField(default=False)
     startup_url = models.URLField(blank=True)
-    
-        
 
     created_at = models.DateTimeField(auto_now_add = True)
+
     def __str__(self):
         return f"{self.uid} - {self.role}"
+
+
+
+# skill model to store skills (i need to hardcode the skills for now)
+class Skills(models.Model):
+    name=models.CharFeild(max_length=100, unique=True)
+    def __str__(self):
+        return self.name
+
+#skill weightage model to store the weightage of each skills for each profile
+class SkillWeightage(models.Model):
+    profile= models.ForeginKey(Profile, on_delete=models.CASCADE )
+    skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
+    weightage= models.IntegerFeild(default=0)
+    
+    def __str__(self):
+        return f"{self.profile.uid} - {self.skill.name} ({self.weightage})"
+    
     
 
