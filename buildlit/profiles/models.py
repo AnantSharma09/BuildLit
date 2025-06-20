@@ -35,15 +35,15 @@ class Profile(models.Model):
 
 # skill model to store skills (i need to hardcode the skills for now)
 class Skills(models.Model):
-    name=models.CharFeild(max_length=100, unique=True)
+    name=models.CharField(max_length=100, unique=True)
     def __str__(self):
         return self.name
 
 #skill weightage model to store the weightage of each skills for each profile
 class SkillWeightage(models.Model):
-    profile= models.ForeginKey(Profile, on_delete=models.CASCADE )
+    profile= models.ForeignKey(Profile, on_delete=models.CASCADE )
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
-    weightage= models.IntegerFeild(default=0)
+    weightage= models.IntegerField(default=0)
     
     def __str__(self):
         return f"{self.profile.uid} - {self.skill.name} ({self.weightage})"
