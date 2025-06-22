@@ -44,9 +44,9 @@ class SkillWeightage(models.Model):
     profile= models.ForeignKey(Profile, on_delete=models.CASCADE )
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
     weightage= models.IntegerField(default=0)
-    
+    created_at = models.DateTimeField(auto_now_add = True)
     def __str__(self):
         return f"{self.profile.uid} - {self.skill.name} ({self.weightage})"
-    
+        
     
 

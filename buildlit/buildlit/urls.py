@@ -16,8 +16,21 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from profiles.views import ProfileViewSet, SkillsViewSet, SkillWeightageViewSet
+
+
+router=DefaultRouter()
+router.register(r'profiles',ProfileViewSet )
+router.register(r'skills',SkillsViewSet)
+router.register(r'skill-weightage',SkillWeightageViewSet)
+
+
+
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('api/',include(router.urls)),
 ]
+
