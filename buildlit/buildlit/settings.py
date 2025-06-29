@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "profiles", # custom app for user profiles
+    "builder",
+    "joiner",
 ]
 
 MIDDLEWARE = [
