@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "profiles", # custom app for user profiles
     "builder",
     "joiner",
+    "posts",  # custom app for posts
+    
 ]
 
 MIDDLEWARE = [
