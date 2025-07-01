@@ -21,6 +21,7 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model= Like
         fields = '__all__'
+        
     def create(self, validated_data):
         user= validated_data.pop('user_id')
         post= validated_data.pop('post_id')
@@ -34,6 +35,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields= '__all__'
+
     def create(self, validated_data):
         user = validated_data.pop('user_id')
         post = validated_data.pop('post_id')
@@ -47,6 +49,7 @@ class  BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookmark
         fields= '__all__'
+
     def create(self, validated_data):
          user = validated_data.pop('user_id')
          post = validated_data.pop('post_id')
