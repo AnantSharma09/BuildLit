@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
 from profiles.views import ProfileViewSet, SkillsViewSet, SkillWeightageViewSet
+from feed.views import FeedView
 from django.conf import settings
 from django.conf.urls.static import static
 router=DefaultRouter()
@@ -33,7 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include(router.urls)),
     path('api/', include('posts.urls')),
-
+    path('api/', include('feed.urls')),
 ]
 
 if settings.DEBUG:
