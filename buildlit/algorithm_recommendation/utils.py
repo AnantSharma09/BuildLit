@@ -1,5 +1,5 @@
-from buildlit.profiles.models import Profile
-from buildlit.posts.models import Post
+from profiles.models import Profile
+from posts.models import Post
 def get_recommended_post_ids(profile:Profile):
     if profile.role == 'builder':
         # for builders recommend joiners'

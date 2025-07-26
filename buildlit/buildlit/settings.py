@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "builder",
     "joiner",
     "posts",  # custom app for posts
-    "feed"
+    "feed",
     "algorithm_recommendation",  # custom app for algorithmic recommendations
 ]
 
