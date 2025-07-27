@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class FeedView(APIView):
-    permission = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
        profile= Profile.objects.get(user=request.user)
        recommended_post_ids = get_recommended_post_ids(profile)
