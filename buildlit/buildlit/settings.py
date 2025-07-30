@@ -132,3 +132,7 @@ import os
 
 Media_URL = '/media/'
 Media_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+   'DEFAULT_PERMISSION_CLASSES': ['django_filters.rest_framework.DjangoFilterBackend']
+}

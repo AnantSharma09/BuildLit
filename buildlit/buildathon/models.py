@@ -4,8 +4,9 @@ from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 import os
+from django.contrib.auth.models import get_user_model
 # Create your models here.
-
+User = get_user_model()
 class Buildathon(models.Model):
     name = models.CharField(max_length=275)
     description = models.TextField()
@@ -16,6 +17,7 @@ class Buildathon(models.Model):
     is_team_based = models.BooleanField(default=False)
     max_team_size = models.IntegerField(default=4, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    registered_participants = models.ManyToManyField(User, blank=True, related_name='registered_buildathons')
     banner = models.ImageField(upload_to='buildathon_banners/', null=True, blank=True)
     category = models.CharField(max_length=100)
     @property
@@ -203,7 +205,6 @@ class BuildathonJudging(models.Model):
     def __str__(self):
         return f"Judge: {self.judge.user.username} | Submission: {self.submission.id} | Score: {self.score}"
 
-from django.db import models
 
 class BuildathonWinner(models.Model):
     buildathon = models.ForeignKey(

@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('api/', include('posts.urls')),
     path('api/', include('feed.urls')),
+    path('api/', include('buildathon.urls')),
 ]
 
 if settings.DEBUG:

@@ -7,6 +7,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['created_at']
 
+class ProfileMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'user', 'role']
 
 class SkillsSerializer(serializers.ModelSerializer):
     class Meta:
