@@ -23,6 +23,7 @@ from profiles.views import ProfileDetailUpdateView
 from feed.views import FeedView
 from django.conf import settings
 from django.conf.urls.static import static
+
 router=DefaultRouter()
 
 router.register(r'skills',SkillsViewSet)
@@ -39,7 +40,8 @@ urlpatterns = [
     path('api/', include('buildathon.urls')),
     path('api/challenges/', include('challenges.urls')),
     path("api/profile/", include("profiles.urls")),
-     path('api/', include('authapp.urls')),
+    path('api/auth/', include('authapp.urls')),
+    
 ]
 
 if settings.DEBUG:
