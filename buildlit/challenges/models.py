@@ -26,7 +26,7 @@ class BuilderChallenge(models.Model):
         return self.title
 
 
-class ChallengeApplication(models.Model):
+class ChallengeApplicant(models.Model):
     challenge = models.ForeignKey(BuilderChallenge, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     buildathon_credentials = models.ManyToManyField(BuildathonWinner, help_text="Buildathon wins that qualify this application")
@@ -35,18 +35,6 @@ class ChallengeApplication(models.Model):
     def __str__(self):
         return f"{self.applicant.user.username} -> {self.challenge.title}"
 
-
-class ChallengeSubmission(models.Model):
-    application = models.ForeignKey(ChallengeApplication, on_delete=models.CASCADE, related_name='submissions')
-    question = models.ForeignKey(ChallengeQuestion, on_delete=models.CASCADE)
-    submitted_code = models.TextField()
-    language = models.CharField(max_length=50, help_text="Programming language used")
-    score = models.FloatField(default=0.0)
-    submitted_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.application.applicant.user.username} - {self.question.title} Submission"
-    
 
 class ChallengeQuestion(models.Model):
     challenge = models.ForeignKey(BuilderChallenge, on_delete=models.CASCADE, related_name='questions')
@@ -61,6 +49,18 @@ class ChallengeQuestion(models.Model):
     def __str__(self):
         return f"{self.challenge.title} - {self.title}"
     
+
+class ChallengeSubmission(models.Model):
+    application = models.ForeignKey(ChallengeApplicant, on_delete=models.CASCADE, related_name='submissions')
+    question = models.ForeignKey(ChallengeQuestion, on_delete=models.CASCADE)
+    submitted_code = models.TextField()
+    language = models.CharField(max_length=50, help_text="Programming language used")
+    score = models.FloatField(default=0.0)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.application.applicant.user.username} - {self.question.title} Submission"
+    
 class ChallengeTestCase(models.Model):
     question = models.ForeignKey(ChallengeQuestion, on_delete=models.CASCADE, related_name='test_cases')
     input_data = models.TextField()
@@ -70,3 +70,25 @@ class ChallengeTestCase(models.Model):
     def __str__(self):
         return f"TestCase for {self.question.title}"
 
+class ChallengeJudging(models.Model):
+    submission = models.ForeignKey(ChallengeSubmission, on_delete=models.CASCADE, related_name='judgings')
+    participant = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='challenge_judged_submissions')
+    judge = models.ForeignKey(Profile, limit_choices_to={'role': 'builder'}, on_delete=models.CASCADE, related_name='challenge_judged_by')
+    score = models.FloatField(default=0.0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_finalized = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('submission', 'judge')
+
+    def save(self, *args, **kwargs):
+        if not self.participant:
+            self.participant = self.submission.application.applicant
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        participant_name = getattr(self.participant.user, 'username', 'Unknown')
+        question_title = getattr(self.submission.question, 'title', 'No Question')
+        judge_name = getattr(self.judge.user, 'username', 'Unknown')
+        return f"{participant_name} - {question_title} judged by {judge_name}"

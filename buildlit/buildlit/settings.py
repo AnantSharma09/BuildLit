@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "posts",  # custom app for posts
     "feed",
     "algorithm_recommendation",  # custom app for algorithmic recommendations
+    "buildathon",
+    "challenges",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -133,6 +136,14 @@ import os
 Media_URL = '/media/'
 Media_ROOT = os.path.join(BASE_DIR, 'media')
 
+# REST_FRAMEWORK = {
+#    'DEFAULT_PERMISSION_CLASSES': ['django_filters.rest_framework.DjangoFilterBackend']
+# }
 REST_FRAMEWORK = {
-   'DEFAULT_PERMISSION_CLASSES': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # or AllowAny, etc.
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 import os
-from django.contrib.auth.models import get_user_model
+from django.contrib.auth import get_user_model
 # Create your models here.
 User = get_user_model()
 class Buildathon(models.Model):
@@ -25,9 +25,7 @@ class Buildathon(models.Model):
         return timezone.now()> self.end_date
     def __str__(self):
         return self.name
-from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils import timezone
+
 
 class BuildathonParticipant(models.Model):
     name = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='buildathon_participants')
@@ -38,8 +36,7 @@ class BuildathonParticipant(models.Model):
         return f"{self.name.user.username} - {self.buildathon.name}"
 
 
-from django.db import models
-from django.core.exceptions import ValidationError
+
 
 class BuildathonTeam(models.Model):
     buildathon = models.ForeignKey('Buildathon', on_delete=models.CASCADE, related_name='teams')
@@ -167,8 +164,8 @@ class BuildathonSubmission(models.Model):
     def __str__(self):
         return f"Submission by {self.participant.user.username} | {self.buildathon.name} | {self.language}"
 
-from django.db import models
-from django.core.exceptions import ValidationError
+
+
 
 class BuildathonJudging(models.Model):
     submission = models.ForeignKey(
@@ -179,7 +176,7 @@ class BuildathonJudging(models.Model):
     judge = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='judged_submissions'
+        related_name='buildathon_judgings'
     )
     score = models.FloatField(
         default=0,
@@ -197,10 +194,10 @@ class BuildathonJudging(models.Model):
     class Meta:
         unique_together = ('submission', 'judge')  # Prevent duplicate judgings from same judge
 
-    def clean(self):
-        # Optional: Validate that the judge is allowed to judge this submission
-        if not self.submission.buildathon.judges.filter(id=self.judge.id).exists():
-            raise ValidationError("This user is not a judge for the related buildathon.")
+    # def clean(self):
+    #     # Optional: Validate that the judge is allowed to judge this submission
+    #     if not self.submission.buildathon.judges.filter(id=self.judge.id).exists():
+    #         raise ValidationError("This user is not a judge for the related buildathon.")
 
     def __str__(self):
         return f"Judge: {self.judge.user.username} | Submission: {self.submission.id} | Score: {self.score}"

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import APIView, status , viewsets
+from rest_framework import  status , viewsets
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Buildathon,BuildathonQuestion,BuildathonWinner,BuildathonSubmission,BuildathonJudging
@@ -46,7 +47,7 @@ class BuildathonViewSet(viewsets.ModelViewSet):
 
 
 
-class CreateQuestionView(viewsets.ModelViewSet):
+class BuildathonQuestionViewSet(viewsets.ModelViewSet):
     queryset = BuildathonQuestion.objects.all()
     serializer_class = BuildathonQuestionSerializer
     permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
