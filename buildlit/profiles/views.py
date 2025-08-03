@@ -8,10 +8,10 @@ from profiles.serializers import (
     ProfileSerializer, SkillsSerializer, SkillWeightageSerializer,
     OnboardingSerializer, SkillsOnlySerializer, ProfileMiniSerializer
 )
-
+from rest_framework.permissions import IsAuthenticated
 class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user.profile
@@ -27,7 +27,7 @@ class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all().select_related('user')
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         """Filter based on user permissions"""
@@ -108,7 +108,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class SkillsViewSet(viewsets.ModelViewSet):
     queryset = Skills.objects.all()
     serializer_class = SkillsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     @action(detail=False, methods=['get'])
     def popular(self, request):
@@ -131,7 +131,7 @@ class SkillsViewSet(viewsets.ModelViewSet):
 class SkillWeightageViewSet(viewsets.ModelViewSet):
     queryset = SkillWeightage.objects.all().select_related('profile__user', 'skill')
     serializer_class = SkillWeightageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         """Filter by profile if specified"""
