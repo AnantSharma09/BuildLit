@@ -16,8 +16,8 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()  # creates user
 
-        
-        Profile.objects.create(user=user)
+        role = request.data.get("role", "joiner")
+        Profile.objects.create(user=user,role=role)
 
         refresh = RefreshToken.for_user(user)
         return Response({
