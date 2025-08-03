@@ -39,6 +39,7 @@ urlpatterns = [
     path('api/', include('buildathon.urls')),
     path('api/challenges/', include('challenges.urls')),
     path("api/profile/", include("profiles.urls")),
+     path('api/auth/', include('authapp.urls')),
 ]
 
 if settings.DEBUG:
