@@ -9,20 +9,20 @@ from profiles.serializers import (
     OnboardingSerializer, SkillsOnlySerializer, ProfileMiniSerializer
 )
 from rest_framework.permissions import IsAuthenticated
-class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+# class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
+#     serializer_class = ProfileSerializer
+#     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        return self.request.user.profile
+#     def get_object(self):
+#         return self.request.user.profile
 
-    def get_serializer_class(self):
-        """Use different serializers based on the action"""
-        if self.request.method == 'PATCH':
-            # Check if only updating skills
-            if set(self.request.data.keys()) == {'skills'}:
-                return SkillsOnlySerializer
-        return ProfileSerializer
+#     def get_serializer_class(self):
+#         """Use different serializers based on the action"""
+#         if self.request.method == 'PATCH':
+#             # Check if only updating skills
+#             if set(self.request.data.keys()) == {'skills'}:
+#                 return SkillsOnlySerializer
+#         return ProfileSerializer
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all().select_related('user')

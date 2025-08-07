@@ -1,7 +1,6 @@
 # serializers.py
 from rest_framework import serializers
 from profiles.models import Profile, Skills, SkillWeightage
-from django.contrib.auth.models import User
 
 class SkillEntrySerializer(serializers.Serializer):
     skill = serializers.CharField(max_length=100)

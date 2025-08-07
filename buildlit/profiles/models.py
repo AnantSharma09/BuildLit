@@ -1,6 +1,6 @@
 # models.py
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
@@ -13,7 +13,7 @@ class Profile(models.Model):
         JOINER = 'joiner', _('Joiner')
         BUILDER = 'builder', _('Builder')
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     
     # === Common Fields ===
@@ -49,16 +49,7 @@ class Profile(models.Model):
 
     
 
-# Auto-create profile when user is created
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'profile'):
-        instance.profile.save()
 
 # Keep these models if you want the normalized approach as well
 # Otherwise, you can remove them if you're only using JSONField

@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "buildathon",
     "challenges",
     "authapp",
+    "rest_framework_simplejwt.token_blacklist",
+    "custom_user",
 ]
 
 MIDDLEWARE = [
@@ -136,18 +138,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # ← Fixed capitalization
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',  # ← Single definition
-    # ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
 }
+
 
 
 # JWT Configuration
@@ -160,11 +164,6 @@ SIMPLE_JWT = {
 }
 
 
-# CORS Configuration
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
 
 # ⚠️ DEVELOPMENT ONLY - REMOVE IN PRODUCTION
 CORS_ALLOW_ALL_ORIGINS = True
@@ -192,3 +191,5 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+AUTH_USER_MODEL= 'custom_user.CustomUser'
