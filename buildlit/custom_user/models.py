@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
   is_staff = models.BooleanField(default=False)       # ✅ Required for admin access
   is_superuser = models.BooleanField(default=False)   # ✅ Usually added explicitly
 
-    # Optional:
+   
   date_joined = models.DateTimeField(auto_now_add=True)
   last_login = models.DateTimeField(auto_now=True)
 

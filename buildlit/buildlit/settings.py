@@ -51,11 +51,12 @@ INSTALLED_APPS = [
     "posts",
     "feed",
     "algorithm_recommendation",
-    "buildathon",
-    "challenges",
+    #"buildathon", 
+    #"challenges", 
     "authapp",
     "rest_framework_simplejwt.token_blacklist",
     "custom_user",
+    "core",
 ]
 
 MIDDLEWARE = [
